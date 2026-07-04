@@ -17,7 +17,7 @@ export function Hero() {
             hidden: {},
             visible: {
               transition: {
-                staggerChildren: 0.6,
+                staggerChildren: 0.8,
               }
             }
           }}
@@ -26,20 +26,20 @@ export function Hero() {
           {/* Large background logo that fades in first */}
           <motion.div 
             variants={{
-              hidden: { opacity: 0, scale: 0.9, filter: "brightness(1.5)" },
+              hidden: { opacity: 0, scale: 0.9, filter: "brightness(1.2)" },
               visible: { 
-                opacity: 0.25, 
+                opacity: 0.35, 
                 scale: 1, 
-                filter: "brightness(1.8)",
+                filter: "brightness(1.6) contrast(1.1)",
                 transition: { duration: 1.0, ease: "easeOut" } 
               }
             }}
             className="absolute -top-12 -left-16 w-96 h-96 md:w-[450px] md:h-[450px] lg:w-[540px] lg:h-[540px] pointer-events-none select-none z-0"
           >
             <img 
-              src="https://x0.at/yf7f.png" 
+              src="/logo.png" 
               alt="FAR-VISION Logo en arrière-plan" 
-              className="w-full h-full object-contain" 
+              className="w-full h-full object-contain animate-pulse" 
               referrerPolicy="no-referrer"
             />
           </motion.div>
@@ -47,11 +47,11 @@ export function Hero() {
           {/* Text and buttons that fade in second */}
           <motion.div 
             variants={{
-              hidden: { opacity: 0, y: 30 },
+              hidden: { opacity: 0, y: 40 },
               visible: { 
                 opacity: 1, 
                 y: 0, 
-                transition: { duration: 0.8, ease: "easeOut" } 
+                transition: { duration: 1.0, ease: "easeOut" } 
               }
             }}
             className="relative z-10"
@@ -113,7 +113,7 @@ export function Hero() {
           <div className="grid grid-cols-2 gap-4 h-full relative z-0">
             <div className="col-span-1 h-full pt-12 pb-4">
               <img 
-                src="https://x0.at/T0W5.webp" 
+                src="/carousel/image1.webp" 
                 alt="Homme professionnel portant des lunettes de vue FAR-VISION" 
                 referrerPolicy="no-referrer"
                 loading="eager"
@@ -122,14 +122,14 @@ export function Hero() {
             </div>
             <div className="col-span-1 flex flex-col gap-4 h-full pb-12 pt-4">
               <img 
-                src="https://x0.at/ikFh.webp" 
+                src="/carousel/image2.webp" 
                 alt="Femme d'affaires portant des lunettes de vue élégantes" 
                 referrerPolicy="no-referrer"
                 loading="eager"
                 className="w-full h-1/2 object-cover rounded-2xl shadow-xl shadow-black/40"
               />
               <img 
-                src="https://x0.at/AC6k.webp" 
+                src="/carousel/image3.webp" 
                 alt="Enfant souriant portant des lunettes de vue confortables" 
                 referrerPolicy="no-referrer"
                 loading="eager"
