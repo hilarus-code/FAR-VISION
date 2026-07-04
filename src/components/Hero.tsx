@@ -108,7 +108,7 @@ export function Hero() {
           initial={{ opacity: 0, scale: 0.95 }}
           animate={{ opacity: 1, scale: 1 }}
           transition={{ duration: 1, delay: 0.2 }}
-          className="relative lg:ml-auto w-full max-w-lg aspect-square lg:aspect-auto lg:h-[600px]"
+          className="relative lg:ml-auto w-full max-w-lg aspect-square lg:aspect-[4/5] lg:max-h-[650px]"
         >
           <div className="grid grid-cols-2 gap-4 h-full relative z-0">
             <div className="col-span-1 h-full pt-12 pb-4">

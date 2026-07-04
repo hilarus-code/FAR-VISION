@@ -40,7 +40,12 @@ export function Navbar() {
         </nav>
 
         <a href="#" className="flex flex-col sm:flex-row items-center gap-2 sm:gap-3 text-white group absolute left-1/2 -translate-x-1/2">
-          <div className="text-center">
+          <img 
+            src="/logo.png" 
+            alt="FAR-VISION Logo" 
+            className="h-[60px] sm:h-[82px] w-auto object-contain group-hover:scale-105 transition-transform" 
+          />
+          <div className="hidden sm:block text-center sm:text-left">
             <div className="font-serif text-xl sm:text-2xl font-bold tracking-wider text-white">FAR-VISION</div>
             <div className="text-[9px] tracking-[0.2em] text-gold-light uppercase mt-0.5">Ensemble, voyons plus loin</div>
           </div>
