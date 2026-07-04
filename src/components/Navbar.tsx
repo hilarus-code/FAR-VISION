@@ -1,6 +1,7 @@
 import { useState, useEffect } from 'react';
 import { Menu, X, Phone } from 'lucide-react';
 import { motion, AnimatePresence } from 'motion/react';
+import { Logo } from './Logo';
 
 export function Navbar() {
   const [isScrolled, setIsScrolled] = useState(false);
@@ -39,16 +40,16 @@ export function Navbar() {
           ))}
         </nav>
 
-        <a href="#" className="flex flex-col sm:flex-row items-center gap-2 sm:gap-3 text-white group absolute left-1/2 -translate-x-1/2">
-          <img 
-            src="https://x0.at/ubf0.jpg" 
-            alt="FAR-VISION Logo" 
-            referrerPolicy="no-referrer"
-            className="h-[60px] sm:h-[82px] w-auto object-contain group-hover:scale-105 transition-transform" 
+        {/* Brand Logo & Name Area */}
+        <a href="#" className="flex items-center gap-2 sm:gap-3 text-white group absolute left-1/2 -translate-x-1/2">
+          {/* Logo component: monogram variant for compact mobile header, full variant or monogram+text for desktop */}
+          <Logo 
+            variant="monogram"
+            className="h-[50px] sm:h-[64px] w-auto text-gold group-hover:scale-105 transition-transform" 
           />
-          <div className="hidden sm:block text-center sm:text-left">
-            <div className="font-serif text-xl sm:text-2xl font-bold tracking-wider text-white">FAR-VISION</div>
-            <div className="text-[9px] tracking-[0.2em] text-gold-light uppercase mt-0.5">Ensemble, voyons plus loin</div>
+          <div className="text-left">
+            <div className="font-serif text-lg sm:text-2xl font-bold tracking-wider text-white leading-none">FAR-VISION</div>
+            <div className="text-[8px] sm:text-[9px] tracking-[0.15em] text-gold-light uppercase mt-1 opacity-90">Opticien de confiance au Bénin</div>
           </div>
         </a>
 
@@ -64,15 +65,16 @@ export function Navbar() {
             href="https://wa.me/22997082358"
             target="_blank"
             rel="noopener noreferrer"
-            className="px-5 py-2.5 rounded text-sm font-bold bg-gold text-charcoal hover:bg-[#d9b65b] hover:-translate-y-0.5 transition-all"
+            className="px-5 py-2.5 rounded text-sm font-bold bg-gold text-charcoal hover:bg-[#d9b65b] hover:-translate-y-0.5 transition-all shadow-md"
           >
-            WhatsApp
+            Prendre RDV (WhatsApp)
           </a>
         </div>
 
         <button
-          className="lg:hidden text-white p-2 ml-auto"
+          className="lg:hidden text-white p-2 ml-auto relative z-10"
           onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
+          aria-label={isMobileMenuOpen ? "Fermer le menu" : "Ouvrir le menu"}
         >
           {isMobileMenuOpen ? <X /> : <Menu />}
         </button>
@@ -91,7 +93,7 @@ export function Navbar() {
                 key={link.name}
                 href={link.href}
                 onClick={() => setIsMobileMenuOpen(false)}
-                className="text-white text-lg font-medium"
+                className="text-white text-lg font-medium hover:text-gold transition-colors"
               >
                 {link.name}
               </a>
@@ -99,7 +101,7 @@ export function Navbar() {
             <div className="flex flex-col gap-3 mt-4 pt-4 border-t border-white/10">
               <a
                 href="tel:+22901943591"
-                className="flex items-center justify-center gap-2 py-3 rounded font-bold border border-white/40 text-white"
+                className="flex items-center justify-center gap-2 py-3 rounded font-bold border border-white/40 text-white hover:bg-white/5 transition-all"
               >
                 <Phone className="w-5 h-5" />
                 Appeler
@@ -108,9 +110,9 @@ export function Navbar() {
                 href="https://wa.me/22997082358"
                 target="_blank"
                 rel="noopener noreferrer"
-                className="flex items-center justify-center py-3 rounded font-bold bg-gold text-charcoal"
+                className="flex items-center justify-center py-3 rounded font-bold bg-gold text-charcoal hover:bg-[#d9b65b] transition-all shadow-md"
               >
-                Discuter sur WhatsApp
+                Prendre RDV (WhatsApp)
               </a>
             </div>
           </motion.div>
