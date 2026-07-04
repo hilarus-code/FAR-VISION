@@ -1,33 +1,32 @@
-import { Glasses, Sun, User, Users, Baby } from 'lucide-react';
 import { motion } from 'motion/react';
 
 const products = [
   {
-    icon: <Glasses className="w-10 h-10" aria-hidden="true" />,
+    image: "/types/de_vue.jpg",
     title: "Lunettes de vue",
     desc: "Verres correcteurs de haute précision adaptés à votre prescription médicale. Disponibles à Cotonou, Porto-Novo et Bohicon.",
     msg: "Bonjour FAR-VISION, je suis intéressé(e) par des lunettes de vue."
   },
   {
-    icon: <Sun className="w-10 h-10" aria-hidden="true" />,
+    image: "/types/de_soleil.jpg",
     title: "Lunettes de soleil",
     desc: "Protection solaire optimale UV400 et style pour toutes les saisons. Large choix de marques optiques.",
     msg: "Bonjour FAR-VISION, je suis intéressé(e) par des lunettes de soleil."
   },
   {
-    icon: <User className="w-10 h-10" aria-hidden="true" />,
+    image: "/types/homme.jpg",
     title: "Montures Homme",
     desc: "Lignes sobres, rectangulaires ou vintage pour une allure affirmée. Robustesse et confort au quotidien.",
     msg: "Bonjour FAR-VISION, je suis intéressé par des montures Homme."
   },
   {
-    icon: <Users className="w-10 h-10" aria-hidden="true" />,
+    image: "/types/femme.jpg",
     title: "Montures Femme",
     desc: "Formes rondes, papillon et élégantes pour sublimer votre regard. Montures légères et tendances.",
     msg: "Bonjour FAR-VISION, je suis intéressée par des montures Femme."
   },
   {
-    icon: <Baby className="w-10 h-10" aria-hidden="true" />,
+    image: "/types/enfant.jpg",
     title: "Montures Enfant",
     desc: "Montures flexibles, légères et ultra-résistantes, spécialement pensées pour la sécurité des plus jeunes.",
     msg: "Bonjour FAR-VISION, je cherche des montures pour Enfant."
@@ -60,11 +59,17 @@ export function Products() {
               viewport={{ once: true }}
               transition={{ delay: idx * 0.1 }}
               key={idx}
-              className="bg-creme border border-sable rounded-xl p-8 text-center hover:border-gold hover:-translate-y-2 hover:shadow-2xl hover:shadow-charcoal/10 transition-all duration-300 group flex flex-col"
+              className="bg-creme border border-sable rounded-xl p-6 text-center hover:border-gold hover:-translate-y-2 hover:shadow-2xl hover:shadow-charcoal/10 transition-all duration-300 group flex flex-col"
               itemScope itemType="https://schema.org/Product"
             >
-              <div className="w-20 h-20 mx-auto bg-white rounded-full flex items-center justify-center text-charcoal group-hover:text-gold shadow-sm mb-6 transition-colors">
-                {prod.icon}
+              <div className="w-full aspect-[4/3] rounded-lg overflow-hidden bg-white mb-6 shadow-sm relative border border-sable/50">
+                <img
+                  src={prod.image}
+                  alt={prod.title}
+                  referrerPolicy="no-referrer"
+                  className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110"
+                />
+                <div className="absolute inset-0 bg-black/5 group-hover:bg-transparent transition-colors duration-300" />
               </div>
               <h3 className="text-lg font-bold mb-3" itemProp="name">{prod.title}</h3>
               <p className="text-gray-soft text-sm mb-8 flex-grow" itemProp="description">{prod.desc}</p>
