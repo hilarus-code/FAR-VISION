@@ -1,4 +1,7 @@
+# robots.txt for FAR-VISION
+# Permettre une indexation complète et libre pour une meilleure visibilité dans les moteurs de recherche
 User-agent: *
 Allow: /
 
-Sitemap: https://www.far-vision.bj/sitemap.xml
+# Lien vers le sitemap correct
+Sitemap: https://far-vision.vercel.app/sitemap.xml

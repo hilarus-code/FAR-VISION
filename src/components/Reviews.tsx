@@ -255,7 +255,7 @@ export function Reviews() {
         {JSON.stringify({
           "@context": "https://schema.org",
           "@type": "Organization",
-          "@id": "https://www.far-vision.bj/#organization",
+          "@id": "https://far-vision.vercel.app/#organization",
           "aggregateRating": {
             "@type": "AggregateRating",
             "ratingValue": "4.9",
