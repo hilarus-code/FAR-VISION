@@ -37,7 +37,7 @@ export function Hero() {
             className="absolute -top-12 -left-16 w-96 h-96 md:w-[450px] md:h-[450px] lg:w-[540px] lg:h-[540px] pointer-events-none select-none z-0"
           >
             <img 
-              src="/logo.png" 
+              src="https://x0.at/yf7f.png" 
               alt="FAR-VISION Logo en arrière-plan" 
               className="w-full h-full object-contain" 
               referrerPolicy="no-referrer"
@@ -113,7 +113,7 @@ export function Hero() {
           <div className="grid grid-cols-2 gap-4 h-full relative z-0">
             <div className="col-span-1 h-full pt-12 pb-4">
               <img 
-                src="/carousel/image1.webp" 
+                src="https://x0.at/T0W5.webp" 
                 alt="Homme professionnel portant des lunettes de vue FAR-VISION" 
                 referrerPolicy="no-referrer"
                 loading="eager"
@@ -122,14 +122,14 @@ export function Hero() {
             </div>
             <div className="col-span-1 flex flex-col gap-4 h-full pb-12 pt-4">
               <img 
-                src="/carousel/image2.webp" 
+                src="https://x0.at/ikFh.webp" 
                 alt="Femme d'affaires portant des lunettes de vue élégantes" 
                 referrerPolicy="no-referrer"
                 loading="eager"
                 className="w-full h-1/2 object-cover rounded-2xl shadow-xl shadow-black/40"
               />
               <img 
-                src="/carousel/image3.webp" 
+                src="https://x0.at/AC6k.webp" 
                 alt="Enfant souriant portant des lunettes de vue confortables" 
                 referrerPolicy="no-referrer"
                 loading="eager"
