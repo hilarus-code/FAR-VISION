@@ -1,17 +1,37 @@
-import { FormEvent } from 'react';
-import { Mail, MapPin, Phone, Clock } from 'lucide-react';
+import { FormEvent, useState } from 'react';
+import { Mail, MapPin, Phone, Clock, Send, CheckCircle } from 'lucide-react';
+import { submitContact, isSupabaseConfigured } from '../lib/supabase';
 
 export function Contact() {
-  const handleSubmit = (e: FormEvent<HTMLFormElement>) => {
+  const [submitting, setSubmitting] = useState(false);
+  const [submitted, setSubmitted] = useState(false);
+
+  const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    const formData = new FormData(e.currentTarget);
+    setSubmitting(true);
+    const form = e.currentTarget;
+    const formData = new FormData(form);
     const nom = formData.get('nom') as string;
     const tel = formData.get('tel') as string;
     const cat = formData.get('categorie') as string;
     const msg = formData.get('message') as string;
     
+    // Save to Supabase (or fallback to LocalStorage if not configured)
+    await submitContact({ nom, tel, categorie: cat, message: msg });
+
+    setSubmitting(false);
+    setSubmitted(true);
+
     const text = `Bonjour FAR-VISION,\n\nNom : ${nom}\nTéléphone : ${tel}\nCatégorie : ${cat}\nMessage : ${msg}`;
+    
+    // Open in WhatsApp
     window.open(`https://wa.me/22997082358?text=${encodeURIComponent(text)}`, '_blank');
+
+    // Reset form after a brief delay
+    setTimeout(() => {
+      form.reset();
+      setSubmitted(false);
+    }, 5000);
   };
 
   return (
@@ -91,8 +111,21 @@ export function Contact() {
               <label htmlFor="message" className="block text-xs font-bold tracking-wider uppercase text-charcoal mb-2">Message</label>
               <textarea id="message" name="message" rows={4} placeholder="Décrivez votre besoin (devis, rendez-vous...)" className="w-full px-4 py-3 bg-creme border border-sable rounded-lg focus:outline-none focus:ring-2 focus:ring-gold/50 focus:border-gold transition-all text-sm resize-y"></textarea>
             </div>
-            <button type="submit" className="w-full bg-gold text-charcoal font-bold py-4 rounded-lg hover:bg-[#d9b65b] transition-colors">
-              Envoyer la demande sur WhatsApp
+            <button 
+              type="submit" 
+              disabled={submitting}
+              className="w-full bg-gold text-charcoal font-bold py-4 rounded-lg hover:bg-[#d9b65b] transition-colors flex items-center justify-center gap-2 disabled:opacity-50 cursor-pointer"
+            >
+              {submitting ? (
+                <span>Envoi en cours...</span>
+              ) : submitted ? (
+                <span className="flex items-center gap-2">
+                  <CheckCircle className="w-5 h-5 text-charcoal animate-bounce" />
+                  Demande enregistrée ! Redirection WhatsApp...
+                </span>
+              ) : (
+                <span>Envoyer la demande sur WhatsApp</span>
+              )}
             </button>
             <p className="text-xs text-gray-soft text-center mt-4">
               En envoyant, votre message s'ouvrira directement dans WhatsApp pour un traitement rapide.

@@ -41,8 +41,9 @@ export function Navbar() {
 
         <a href="#" className="flex flex-col sm:flex-row items-center gap-2 sm:gap-3 text-white group absolute left-1/2 -translate-x-1/2">
           <img 
-            src="/logo.png" 
+            src="https://x0.at/ubf0.jpg" 
             alt="FAR-VISION Logo" 
+            referrerPolicy="no-referrer"
             className="h-[60px] sm:h-[82px] w-auto object-contain group-hover:scale-105 transition-transform" 
           />
           <div className="hidden sm:block text-center sm:text-left">

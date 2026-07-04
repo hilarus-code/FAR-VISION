@@ -1,18 +1,52 @@
-import { motion } from 'motion/react';
-import { MapPin, MessageCircle, PhoneCall } from 'lucide-react';
+import { useState, useEffect } from 'react';
+import { motion, AnimatePresence } from 'motion/react';
+import { MapPin, MessageCircle, PhoneCall, ChevronLeft, ChevronRight } from 'lucide-react';
+
+const CAROUSEL_IMAGES = [
+  {
+    url: "https://x0.at/rYPp.webp",
+    alt: "Homme professionnel portant des lunettes de vue FAR-VISION"
+  },
+  {
+    url: "https://x0.at/jK3b.webp",
+    alt: "Femme d'affaires portant des lunettes de vue élégantes"
+  },
+  {
+    url: "https://x0.at/O5u9.webp",
+    alt: "Enfant souriant portant des lunettes de vue confortables"
+  }
+];
 
 export function Hero() {
+  const [currentIndex, setCurrentIndex] = useState(0);
+
+  // Auto-play interval
+  useEffect(() => {
+    const timer = setInterval(() => {
+      setCurrentIndex((prevIndex) => (prevIndex + 1) % CAROUSEL_IMAGES.length);
+    }, 4500);
+    return () => clearInterval(timer);
+  }, []);
+
+  const handleNext = () => {
+    setCurrentIndex((prevIndex) => (prevIndex + 1) % CAROUSEL_IMAGES.length);
+  };
+
+  const handlePrev = () => {
+    setCurrentIndex((prevIndex) => (prevIndex - 1 + CAROUSEL_IMAGES.length) % CAROUSEL_IMAGES.length);
+  };
+
   return (
     <section id="accueil" className="relative pt-32 pb-20 lg:pt-48 lg:pb-32 bg-charcoal overflow-hidden min-h-[90vh] flex items-center">
       {/* Decorative gradients */}
       <div className="absolute top-0 right-0 w-[800px] h-[800px] bg-gold/10 rounded-full blur-3xl -translate-y-1/2 translate-x-1/3 pointer-events-none" />
       <div className="absolute bottom-0 left-0 w-[600px] h-[600px] bg-gold/5 rounded-full blur-3xl translate-y-1/3 -translate-x-1/3 pointer-events-none" />
 
-      <div className="max-w-7xl mx-auto px-6 grid lg:grid-cols-2 gap-12 lg:gap-8 items-center relative z-10">
+      <div className="max-w-7xl mx-auto px-6 grid lg:grid-cols-2 gap-16 lg:gap-12 items-center relative z-10 w-full">
         <motion.div
           initial="hidden"
           whileInView="visible"
-          viewport={{ once: false, amount: 0.15 }}
+          viewport={{ once: true, amount: 0.15 }}
           variants={{
             hidden: {},
             visible: {
@@ -23,31 +57,30 @@ export function Hero() {
           }}
           className="relative"
         >
-          {/* Large background logo that fades in first */}
+          {/* Large background watermark logo (fades in first) */}
           <motion.div 
             variants={{
-              hidden: { opacity: 0, scale: 0.9, filter: "brightness(1.2)" },
+              hidden: { opacity: 0, scale: 0.85 },
               visible: { 
-                opacity: 0.35, 
+                opacity: 0.15, 
                 scale: 1, 
-                filter: "brightness(1.6) contrast(1.1)",
-                transition: { duration: 1.0, ease: "easeOut" } 
+                transition: { duration: 1.2, ease: "easeOut" } 
               }
             }}
-            className="absolute -top-12 -left-16 w-96 h-96 md:w-[450px] md:h-[450px] lg:w-[540px] lg:h-[540px] pointer-events-none select-none z-0"
+            className="absolute -top-16 -left-16 w-96 h-96 md:w-[480px] md:h-[480px] lg:w-[580px] lg:h-[580px] pointer-events-none select-none z-0"
           >
             <img 
-              src="/logo.png" 
-              alt="FAR-VISION Logo en arrière-plan" 
-              className="w-full h-full object-contain animate-pulse" 
+              src="https://x0.at/ubf0.jpg" 
+              alt="FAR-VISION Logo en filigrane" 
               referrerPolicy="no-referrer"
+              className="w-full h-full object-contain animate-pulse duration-4000" 
             />
           </motion.div>
 
-          {/* Text and buttons that fade in second */}
+          {/* Text and buttons (fades in second, sliding smoothly from below) */}
           <motion.div 
             variants={{
-              hidden: { opacity: 0, y: 40 },
+              hidden: { opacity: 0, y: 50 },
               visible: { 
                 opacity: 1, 
                 y: 0, 
@@ -71,7 +104,7 @@ export function Hero() {
             <div className="flex flex-col sm:flex-row gap-4 mb-12">
               <a
                 href="tel:+2290194359191"
-                className="flex items-center justify-center gap-2 bg-gold text-charcoal px-8 py-4 rounded font-bold hover:bg-[#d9b65b] hover:-translate-y-1 transition-all"
+                className="flex items-center justify-center gap-2 bg-gold text-charcoal px-8 py-4 rounded font-bold hover:bg-[#d9b65b] hover:-translate-y-1 transition-all shadow-lg"
               >
                 <PhoneCall className="w-5 h-5" />
                 Appeler un conseiller
@@ -104,49 +137,79 @@ export function Hero() {
           </motion.div>
         </motion.div>
 
+        {/* Elegant Auto-Playing Slider/Carousel */}
         <motion.div
           initial={{ opacity: 0, scale: 0.95 }}
           animate={{ opacity: 1, scale: 1 }}
           transition={{ duration: 1, delay: 0.2 }}
-          className="relative lg:ml-auto w-full max-w-lg aspect-square lg:aspect-[4/5] lg:max-h-[650px]"
+          className="relative lg:ml-auto w-full max-w-lg aspect-[4/5] h-[400px] sm:h-[480px] md:h-[520px] lg:h-[580px] flex flex-col justify-between"
         >
-          <div className="grid grid-cols-2 gap-4 h-full relative z-0">
-            <div className="col-span-1 h-full pt-12 pb-4">
-              <img 
-                src="/carousel/image1.webp" 
-                alt="Homme professionnel portant des lunettes de vue FAR-VISION" 
+          {/* Main Slide Container */}
+          <div className="relative w-full h-full rounded-2xl overflow-hidden shadow-2xl shadow-black/60 border border-white/10 group bg-charcoal/50">
+            <AnimatePresence mode="wait">
+              <motion.img
+                key={currentIndex}
+                src={CAROUSEL_IMAGES[currentIndex].url}
+                alt={CAROUSEL_IMAGES[currentIndex].alt}
                 referrerPolicy="no-referrer"
-                loading="eager"
-                className="w-full h-full object-cover rounded-2xl shadow-xl shadow-black/40"
+                initial={{ opacity: 0, scale: 1.02 }}
+                animate={{ opacity: 1, scale: 1 }}
+                exit={{ opacity: 0, scale: 0.98 }}
+                transition={{ duration: 0.7, ease: "easeInOut" }}
+                className="absolute inset-0 w-full h-full object-cover select-none pointer-events-none"
               />
-            </div>
-            <div className="col-span-1 flex flex-col gap-4 h-full pb-12 pt-4">
-              <img 
-                src="/carousel/image2.webp" 
-                alt="Femme d'affaires portant des lunettes de vue élégantes" 
-                referrerPolicy="no-referrer"
-                loading="eager"
-                className="w-full h-1/2 object-cover rounded-2xl shadow-xl shadow-black/40"
-              />
-              <img 
-                src="/carousel/image3.webp" 
-                alt="Enfant souriant portant des lunettes de vue confortables" 
-                referrerPolicy="no-referrer"
-                loading="eager"
-                className="w-full h-1/2 object-cover rounded-2xl shadow-xl shadow-black/40"
-              />
+            </AnimatePresence>
+
+            {/* Dark overlay for text readability of address card */}
+            <div className="absolute inset-x-0 bottom-0 h-40 bg-gradient-to-t from-black/80 to-transparent pointer-events-none" />
+
+            {/* Manual Navigation Controls */}
+            <button
+              onClick={handlePrev}
+              className="absolute left-4 top-1/2 -translate-y-1/2 w-10 h-10 rounded-full bg-black/40 text-white backdrop-blur-sm border border-white/10 flex items-center justify-center opacity-0 group-hover:opacity-100 hover:bg-black/60 transition-all z-20 cursor-pointer"
+              aria-label="Image précédente"
+            >
+              <ChevronLeft className="w-6 h-6" />
+            </button>
+            <button
+              onClick={handleNext}
+              className="absolute right-4 top-1/2 -translate-y-1/2 w-10 h-10 rounded-full bg-black/40 text-white backdrop-blur-sm border border-white/10 flex items-center justify-center opacity-0 group-hover:opacity-100 hover:bg-black/60 transition-all z-20 cursor-pointer"
+              aria-label="Image suivante"
+            >
+              <ChevronRight className="w-6 h-6" />
+            </button>
+
+            {/* Bottom Indicators (Dots) */}
+            <div className="absolute bottom-28 left-1/2 -translate-x-1/2 flex gap-2 z-20">
+              {CAROUSEL_IMAGES.map((_, index) => (
+                <button
+                  key={index}
+                  onClick={() => setCurrentIndex(index)}
+                  className={`w-2.5 h-2.5 rounded-full transition-all cursor-pointer ${
+                    index === currentIndex ? 'bg-gold scale-125' : 'bg-white/40 hover:bg-white/70'
+                  }`}
+                  aria-label={`Aller à l'image ${index + 1}`}
+                />
+              ))}
             </div>
           </div>
-          
-          <div className="absolute bottom-6 left-6 right-6 z-10 bg-white/10 backdrop-blur-md border border-white/20 p-4 rounded-xl flex items-center gap-4 text-white shadow-2xl">
-            <div className="bg-gold p-3 rounded-lg text-charcoal">
+
+          {/* Floating Address/Location Card */}
+          <div className="absolute bottom-6 left-6 right-6 z-30 bg-white/10 backdrop-blur-md border border-white/20 p-4 rounded-xl flex items-center gap-4 text-white shadow-2xl">
+            <div className="bg-gold p-3 rounded-lg text-charcoal shrink-0">
               <MapPin className="w-6 h-6" />
             </div>
             <div>
-              <div className="font-bold">Trouvez votre boutique</div>
-              <div className="text-sm text-gray-300">Cotonou, Porto-Novo, Bohicon</div>
+              <div className="font-bold text-sm sm:text-base">Trouvez votre boutique</div>
+              <div className="text-xs sm:text-sm text-gray-300">Cotonou, Porto-Novo, Bohicon</div>
             </div>
-            <a href="#boutiques" className="ml-auto text-sm font-bold uppercase tracking-wider text-gold hover:text-gold-light" aria-label="Voir les adresses des boutiques">Voir &rarr;</a>
+            <a 
+              href="#boutiques" 
+              className="ml-auto text-xs sm:text-sm font-bold uppercase tracking-wider text-gold hover:text-gold-light shrink-0" 
+              aria-label="Voir les adresses des boutiques"
+            >
+              Voir &rarr;
+            </a>
           </div>
         </motion.div>
       </div>
