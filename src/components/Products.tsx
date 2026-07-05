@@ -1,40 +1,50 @@
 import { motion } from 'motion/react';
+import { useWelcome } from '../context/WelcomeContext';
+import { Eye, Sun, User, Sparkles, Smile } from 'lucide-react';
 
 const products = [
   {
     image: "https://x0.at/8mHP.jpg",
     title: "Lunettes de vue",
     desc: "Verres correcteurs de haute précision adaptés à votre prescription médicale. Disponibles à Cotonou, Porto-Novo et Bohicon.",
-    msg: "Bonjour FAR-VISION, je suis intéressé(e) par des lunettes de vue."
+    msg: "Bonjour FAR-VISION, je suis intéressé(e) par des lunettes de vue.",
+    icon: Eye
   },
   {
     image: "https://x0.at/aQB9.jpg",
     title: "Lunettes de soleil",
     desc: "Protection solaire optimale UV400 et style pour toutes les saisons. Large choix de marques optiques.",
-    msg: "Bonjour FAR-VISION, je suis intéressé(e) par des lunettes de soleil."
+    msg: "Bonjour FAR-VISION, je suis intéressé(e) par des lunettes de soleil.",
+    icon: Sun
   },
   {
     image: "https://x0.at/FvPq.jpg",
     title: "Montures Homme",
     desc: "Lignes sobres, rectangulaires ou vintage pour une allure affirmée. Robustesse et confort au quotidien.",
-    msg: "Bonjour FAR-VISION, je suis intéressé par des montures Homme."
+    msg: "Bonjour FAR-VISION, je suis intéressé par des montures Homme.",
+    icon: User
   },
   {
     image: "https://x0.at/TOLY.jpg",
     title: "Montures Femme",
     desc: "Formes rondes, papillon et élégantes pour sublimer votre regard. Montures légères et tendances.",
-    msg: "Bonjour FAR-VISION, je suis intéressée par des montures Femme."
+    msg: "Bonjour FAR-VISION, je suis intéressée par des montures Femme.",
+    icon: Sparkles
   },
   {
     image: "https://x0.at/fMd3.jpg",
     title: "Montures Enfant",
     desc: "Montures flexibles, légères et ultra-résistantes, spécialement pensées pour la sécurité des plus jeunes.",
-    msg: "Bonjour FAR-VISION, je cherche des montures pour Enfant."
+    msg: "Bonjour FAR-VISION, je cherche des montures pour Enfant.",
+    icon: Smile
   }
 ];
 
 export function Products() {
+  const { isWelcomeFinished, showImages } = useWelcome();
+
   // Generate structured JSON-LD data for Google Search Console / Rich Results validation
+
   const jsonLdData = {
     "@context": "https://schema.org",
     "@type": "ItemList",
@@ -106,15 +116,28 @@ export function Products() {
               className="bg-creme border border-sable rounded-xl p-6 text-center hover:border-gold hover:-translate-y-2 hover:shadow-2xl hover:shadow-charcoal/10 transition-all duration-300 group flex flex-col"
               itemScope itemType="https://schema.org/Product"
             >
-              <div className="w-full aspect-[4/3] rounded-lg overflow-hidden bg-white mb-6 shadow-sm relative border border-sable/50">
-                <img
-                  itemProp="image"
-                  src={prod.image}
-                  alt={prod.title}
-                  referrerPolicy="no-referrer"
-                  className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110"
-                />
-                <div className="absolute inset-0 bg-black/5 group-hover:bg-transparent transition-colors duration-300" />
+              <div className="w-full aspect-[4/3] rounded-lg overflow-hidden bg-white mb-6 shadow-sm relative border border-sable/50 flex items-center justify-center">
+                {!isWelcomeFinished ? (
+                  <div className="w-full h-full bg-creme-dark animate-pulse flex items-center justify-center">
+                    <span className="text-[10px] uppercase tracking-widest text-gold/60">FAR-VISION</span>
+                  </div>
+                ) : showImages ? (
+                  <>
+                    <img
+                      itemProp="image"
+                      src={prod.image}
+                      alt={prod.title}
+                      referrerPolicy="no-referrer"
+                      className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110"
+                    />
+                    <div className="absolute inset-0 bg-black/5 group-hover:bg-transparent transition-colors duration-300" />
+                  </>
+                ) : (
+                  <div className="w-full h-full bg-gradient-to-br from-[#fcfbfa] to-creme-dark flex flex-col items-center justify-center text-gold p-4">
+                    <prod.icon className="w-10 h-10 stroke-1 mb-2 group-hover:scale-110 transition-all duration-300" />
+                    <span className="text-[9px] uppercase tracking-[0.15em] text-gold/80 font-bold">FAR-VISION</span>
+                  </div>
+                )}
               </div>
               <h3 className="text-lg font-bold mb-3" itemProp="name">{prod.title}</h3>
               <p className="text-gray-soft text-sm mb-8 flex-grow" itemProp="description">{prod.desc}</p>

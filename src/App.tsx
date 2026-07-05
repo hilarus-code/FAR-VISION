@@ -9,23 +9,29 @@ import { Footer } from './components/Footer';
 import { FloatingWhatsApp } from './components/FloatingWhatsApp';
 import { FAQ } from './components/FAQ';
 import { Reviews } from './components/Reviews';
+import { WelcomeProvider } from './context/WelcomeContext';
+import { WelcomeModal } from './components/WelcomeModal';
 
 export default function App() {
   return (
-    <div className="min-h-screen bg-creme font-sans text-charcoal selection:bg-gold/30">
-      <Navbar />
-      <main>
-        <Hero />
-        <WhyChooseUs />
-        <Products />
-        <CTASection />
-        <Locations />
-        <Reviews />
-        <FAQ />
-        <Contact />
-      </main>
-      <Footer />
-      <FloatingWhatsApp />
-    </div>
+    <WelcomeProvider>
+      <div className="min-h-screen bg-creme font-sans text-charcoal selection:bg-gold/30">
+        <WelcomeModal />
+        <Navbar />
+        <main>
+          <Hero />
+          <WhyChooseUs />
+          <Products />
+          <CTASection />
+          <Locations />
+          <Reviews />
+          <FAQ />
+          <Contact />
+        </main>
+        <Footer />
+        <FloatingWhatsApp />
+      </div>
+    </WelcomeProvider>
   );
 }
+

@@ -2,6 +2,7 @@ import { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'motion/react';
 import { MapPin, MessageCircle, PhoneCall, ChevronLeft, ChevronRight, Check } from 'lucide-react';
 import { Logo } from './Logo';
+import { useWelcome } from '../context/WelcomeContext';
 
 const CAROUSEL_IMAGES = [
   {
@@ -19,15 +20,17 @@ const CAROUSEL_IMAGES = [
 ];
 
 export function Hero() {
+  const { isWelcomeFinished, visionPreference, showImages } = useWelcome();
   const [currentIndex, setCurrentIndex] = useState(0);
 
-  // Auto-play interval
+  // Auto-play interval (only active when images are enabled)
   useEffect(() => {
+    if (!showImages || !isWelcomeFinished) return;
     const timer = setInterval(() => {
       setCurrentIndex((prevIndex) => (prevIndex + 1) % CAROUSEL_IMAGES.length);
     }, 4500);
     return () => clearInterval(timer);
-  }, []);
+  }, [showImages, isWelcomeFinished]);
 
   const handleNext = () => {
     setCurrentIndex((prevIndex) => (prevIndex + 1) % CAROUSEL_IMAGES.length);
@@ -36,6 +39,7 @@ export function Hero() {
   const handlePrev = () => {
     setCurrentIndex((prevIndex) => (prevIndex - 1 + CAROUSEL_IMAGES.length) % CAROUSEL_IMAGES.length);
   };
+
 
   return (
     <section id="accueil" className="relative pt-32 pb-16 lg:pt-44 lg:pb-28 bg-charcoal overflow-hidden min-h-[90vh] flex items-center">
@@ -106,7 +110,11 @@ export function Hero() {
             </div>
 
             {/* Structured benefits block (replaces prose for scannability and mobile reading comfort) */}
-            <div className="text-[#cfcabd] text-sm sm:text-base space-y-3 max-w-md mb-10 leading-relaxed">
+            <div className={`space-y-3 max-w-md mb-10 leading-relaxed transition-all duration-300 ${
+              (visionPreference === 'Oui' || visionPreference === 'Un peu') 
+                ? 'text-white text-base sm:text-lg font-medium' 
+                : 'text-[#cfcabd] text-sm sm:text-base'
+            }`}>
               <div className="flex items-start gap-2.5">
                 <Check className="w-5 h-5 text-gold shrink-0 mt-0.5" />
                 <span>Vision nette à toute distance & verres correcteurs sur-mesure</span>
@@ -172,52 +180,97 @@ export function Hero() {
           {/* Main Slide Container */}
           <div className="relative w-full h-full rounded-2xl overflow-hidden shadow-2xl shadow-black/70 border border-white/10 group bg-charcoal/50">
             <AnimatePresence mode="wait">
-              {/* Image slide with light warmth overlay filter for high-end black/gold color cohesion */}
-              <motion.img
-                key={currentIndex}
-                src={CAROUSEL_IMAGES[currentIndex].url}
-                alt={CAROUSEL_IMAGES[currentIndex].alt}
-                referrerPolicy="no-referrer"
-                initial={{ opacity: 0, scale: 1.02 }}
-                animate={{ opacity: 1, scale: 1 }}
-                exit={{ opacity: 0, scale: 0.98 }}
-                transition={{ duration: 0.7, ease: "easeInOut" }}
-                className="absolute inset-0 w-full h-full object-cover select-none pointer-events-none filter saturate-[0.85] sepia-[15%] contrast-[1.05] brightness-[0.92]"
-              />
+              {!isWelcomeFinished ? (
+                <div key="pre-welcome" className="absolute inset-0 flex flex-col items-center justify-center bg-charcoal text-gold/40">
+                  <Logo variant="monogram" className="w-16 h-16 animate-pulse mb-3" />
+                  <span className="text-[10px] uppercase tracking-widest text-gold/60">FAR-VISION</span>
+                </div>
+              ) : showImages ? (
+                /* Image slide with light warmth overlay filter for high-end black/gold color cohesion */
+                <motion.img
+                  key={currentIndex}
+                  src={CAROUSEL_IMAGES[currentIndex].url}
+                  alt={CAROUSEL_IMAGES[currentIndex].alt}
+                  referrerPolicy="no-referrer"
+                  initial={{ opacity: 0, scale: 1.02 }}
+                  animate={{ opacity: 1, scale: 1 }}
+                  exit={{ opacity: 0, scale: 0.98 }}
+                  transition={{ duration: 0.7, ease: "easeInOut" }}
+                  className="absolute inset-0 w-full h-full object-cover select-none pointer-events-none filter saturate-[0.85] sepia-[15%] contrast-[1.05] brightness-[0.92]"
+                />
+              ) : (
+                /* Thematic, interactive optometry Snellen Eye Chart - extremely creative image fallback */
+                <motion.div
+                  key="optometry-chart"
+                  initial={{ opacity: 0 }}
+                  animate={{ opacity: 1 }}
+                  exit={{ opacity: 0 }}
+                  className="absolute inset-0 w-full h-full bg-gradient-to-b from-[#131211] to-[#22201e] flex flex-col items-center justify-center p-6 select-none"
+                >
+                  <div className="border border-gold/15 rounded-full p-8 bg-black/40 backdrop-blur-sm relative flex flex-col items-center max-w-[280px] w-full aspect-square justify-center shadow-inner">
+                    {/* Simulated Lens outline */}
+                    <div className="absolute inset-2 border border-gold/5 rounded-full pointer-events-none" />
+                    <div className="absolute inset-0 border-2 border-dashed border-gold/10 rounded-full animate-spin duration-[20s] pointer-events-none" />
+                    
+                    {/* Snellen-inspired premium letters */}
+                    <div className="flex flex-col items-center justify-center font-mono text-gold font-bold text-center leading-none select-none">
+                      <div className="text-4xl mb-4 text-white tracking-[0.2em]">E</div>
+                      <div className="text-2xl mb-3 tracking-[0.2em] text-gold-light">F &nbsp; V</div>
+                      <div className="text-lg mb-2 tracking-[0.25em]">O &nbsp; P &nbsp; T</div>
+                      <div className="text-sm mb-1.5 tracking-[0.25em] text-gold/80">I &nbsp; C &nbsp; I &nbsp; E</div>
+                      <div className="text-xs mb-1 tracking-[0.3em] text-gold/60">N &nbsp; B &nbsp; E &nbsp; N &nbsp; I</div>
+                      <div className="text-[9px] tracking-[0.35em] text-gold/40">F &nbsp; A &nbsp; R &nbsp; V &nbsp; I &nbsp; S</div>
+                    </div>
+                  </div>
+                  
+                  <div className="mt-6 text-center">
+                    <span className="text-[10px] font-bold text-gold tracking-[0.2em] uppercase block">ÉCHELLE D'ACUITÉ VISUELLE</span>
+                    <span className="text-[9px] text-white/40 block mt-1">FAR-VISION · Mode haute performance actif</span>
+                  </div>
+                </motion.div>
+              )}
             </AnimatePresence>
 
             {/* Bottom gradient overlay for caption and address accessibility */}
-            <div className="absolute inset-x-0 bottom-0 h-44 bg-gradient-to-t from-black/90 via-black/45 to-transparent pointer-events-none" />
+            {isWelcomeFinished && showImages && (
+              <div className="absolute inset-x-0 bottom-0 h-44 bg-gradient-to-t from-black/90 via-black/45 to-transparent pointer-events-none" />
+            )}
 
             {/* Manual controls (perfect for mouse-driven devices) */}
-            <button
-              onClick={handlePrev}
-              className="absolute left-4 top-1/2 -translate-y-1/2 w-10 h-10 rounded-full bg-black/50 text-white backdrop-blur-sm border border-white/10 flex items-center justify-center opacity-0 group-hover:opacity-100 hover:bg-black/80 transition-all z-20 cursor-pointer"
-              aria-label="Image précédente"
-            >
-              <ChevronLeft className="w-6 h-6" />
-            </button>
-            <button
-              onClick={handleNext}
-              className="absolute right-4 top-1/2 -translate-y-1/2 w-10 h-10 rounded-full bg-black/50 text-white backdrop-blur-sm border border-white/10 flex items-center justify-center opacity-0 group-hover:opacity-100 hover:bg-black/80 transition-all z-20 cursor-pointer"
-              aria-label="Image suivante"
-            >
-              <ChevronRight className="w-6 h-6" />
-            </button>
+            {isWelcomeFinished && showImages && (
+              <>
+                <button
+                  onClick={handlePrev}
+                  className="absolute left-4 top-1/2 -translate-y-1/2 w-10 h-10 rounded-full bg-black/50 text-white backdrop-blur-sm border border-white/10 flex items-center justify-center opacity-0 group-hover:opacity-100 hover:bg-black/80 transition-all z-20 cursor-pointer"
+                  aria-label="Image précédente"
+                >
+                  <ChevronLeft className="w-6 h-6" />
+                </button>
+                <button
+                  onClick={handleNext}
+                  className="absolute right-4 top-1/2 -translate-y-1/2 w-10 h-10 rounded-full bg-black/50 text-white backdrop-blur-sm border border-white/10 flex items-center justify-center opacity-0 group-hover:opacity-100 hover:bg-black/80 transition-all z-20 cursor-pointer"
+                  aria-label="Image suivante"
+                >
+                  <ChevronRight className="w-6 h-6" />
+                </button>
+              </>
+            )}
 
             {/* Dots indicators */}
-            <div className="absolute bottom-28 left-1/2 -translate-x-1/2 flex gap-2.5 z-20">
-              {CAROUSEL_IMAGES.map((_, index) => (
-                <button
-                  key={index}
-                  onClick={() => setCurrentIndex(index)}
-                  className={`w-2.5 h-2.5 rounded-full transition-all cursor-pointer ${
-                    index === currentIndex ? 'bg-gold scale-125' : 'bg-white/40 hover:bg-white/70'
-                  }`}
-                  aria-label={`Aller à l'image ${index + 1}`}
-                />
-              ))}
-            </div>
+            {isWelcomeFinished && showImages && (
+              <div className="absolute bottom-28 left-1/2 -translate-x-1/2 flex gap-2.5 z-20">
+                {CAROUSEL_IMAGES.map((_, index) => (
+                  <button
+                    key={index}
+                    onClick={() => setCurrentIndex(index)}
+                    className={`w-2.5 h-2.5 rounded-full transition-all cursor-pointer ${
+                      index === currentIndex ? 'bg-gold scale-125' : 'bg-white/40 hover:bg-white/70'
+                    }`}
+                    aria-label={`Aller à l'image ${index + 1}`}
+                  />
+                ))}
+              </div>
+            )}
           </div>
 
           {/* Location/Store Finder floating card with high readability */}
