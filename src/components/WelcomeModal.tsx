@@ -37,11 +37,11 @@ export function WelcomeModal() {
       <motion.div
         initial={{ opacity: 1 }}
         exit={{ opacity: 0, transition: { duration: 0.8, ease: "easeInOut" } }}
-        className="fixed inset-0 z-[100] bg-creme-dark/95 backdrop-blur-xl overflow-y-auto flex flex-col items-center justify-start sm:justify-center p-4 sm:p-6 text-charcoal font-sans"
+        className="fixed inset-0 z-[100] bg-white overflow-y-auto flex flex-col items-center justify-start sm:justify-center p-4 sm:p-6 text-charcoal font-sans"
         id="welcome-portal"
       >
         {/* Ambient subtle backlights to match premium theme */}
-        <div className="absolute top-1/4 left-1/4 w-96 h-96 bg-gold/10 rounded-full blur-3xl pointer-events-none" />
+        <div className="absolute top-1/4 left-1/4 w-96 h-96 bg-gold/5 rounded-full blur-3xl pointer-events-none" />
         <div className="absolute bottom-1/4 right-1/4 w-96 h-96 bg-gold/5 rounded-full blur-3xl pointer-events-none" />
 
         {/* Content Container (using min-h-0 and auto-spacing to prevent screen cut-offs) */}
@@ -137,14 +137,21 @@ export function WelcomeModal() {
                       className="w-full py-3.5 px-6 bg-charcoal hover:bg-gold hover:text-charcoal text-white rounded font-bold transition-all shadow-md active:scale-98 cursor-pointer text-sm sm:text-base"
                       id="pref-quality-yes"
                     >
-                      Oui, charger les images
+                      Oui
                     </button>
                     <button
                       onClick={() => handleQualitySelect('Non')}
                       className="w-full py-3.5 px-6 bg-white hover:bg-gold hover:text-charcoal text-charcoal border border-charcoal/10 rounded font-bold transition-all shadow-sm active:scale-98 cursor-pointer text-sm sm:text-base"
                       id="pref-quality-no"
                     >
-                      Non, mode rapide sans images
+                      Non
+                    </button>
+                    <button
+                      onClick={() => handleQualitySelect('Je ne sais pas encore')}
+                      className="w-full py-3.5 px-6 bg-white hover:bg-gold hover:text-charcoal text-charcoal border border-charcoal/10 rounded font-bold transition-all shadow-sm active:scale-98 cursor-pointer text-sm sm:text-base"
+                      id="pref-quality-maybe"
+                    >
+                      Je ne sais pas encore
                     </button>
                   </div>
                 </motion.div>

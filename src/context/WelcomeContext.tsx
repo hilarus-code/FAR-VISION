@@ -1,7 +1,7 @@
 import React, { createContext, useContext, useState, useEffect } from 'react';
 
 export type VisionOption = 'Oui' | 'Un peu' | 'Non';
-export type ImageQualityOption = 'Oui' | 'Non';
+export type ImageQualityOption = 'Oui' | 'Non' | 'Je ne sais pas encore';
 
 interface WelcomeContextType {
   isWelcomeFinished: boolean;
@@ -42,7 +42,7 @@ export function WelcomeProvider({ children }: { children: React.ReactNode }) {
 
     if (finished && savedVision && savedQuality) {
       setVisionPreference(savedVision);
-      setShowImages(savedQuality === 'Oui');
+      setShowImages(savedQuality === 'Oui' || savedQuality === 'Je ne sais pas encore');
       setIsWelcomeFinished(true);
       setIsPreloading(false);
       setPreloadProgress(100);
@@ -78,7 +78,7 @@ export function WelcomeProvider({ children }: { children: React.ReactNode }) {
 
   const setPreferences = (vision: VisionOption, quality: ImageQualityOption) => {
     setVisionPreference(vision);
-    setShowImages(quality === 'Oui');
+    setShowImages(quality === 'Oui' || quality === 'Je ne sais pas encore');
     setIsWelcomeFinished(true);
     
     // Save to localStorage
