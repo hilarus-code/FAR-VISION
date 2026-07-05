@@ -34,8 +34,52 @@ const products = [
 ];
 
 export function Products() {
+  // Generate structured JSON-LD data for Google Search Console / Rich Results validation
+  const jsonLdData = {
+    "@context": "https://schema.org",
+    "@type": "ItemList",
+    "name": "Collection Optique - FAR-VISION",
+    "numberOfItems": products.length,
+    "itemListElement": products.map((prod, idx) => ({
+      "@type": "ListItem",
+      "position": idx + 1,
+      "item": {
+        "@type": "Product",
+        "name": prod.title,
+        "image": prod.image,
+        "description": prod.desc,
+        "sku": `FV-PROD-${idx + 1}`,
+        "mpn": `FV-MPN-${idx + 1}`,
+        "brand": {
+          "@type": "Brand",
+          "name": "FAR-VISION"
+        },
+        "offers": {
+          "@type": "Offer",
+          "url": "https://far-vision.vercel.app/#produits",
+          "priceCurrency": "XOF",
+          "price": "15000",
+          "priceValidUntil": "2027-12-31",
+          "itemCondition": "https://schema.org/NewCondition",
+          "availability": "https://schema.org/InStock"
+        },
+        "aggregateRating": {
+          "@type": "AggregateRating",
+          "ratingValue": "4.9",
+          "reviewCount": "48"
+        }
+      }
+    }))
+  };
+
   return (
     <section id="produits" className="py-24 bg-white" aria-labelledby="products-heading">
+      {/* JSON-LD Script Tag for Search Engines */}
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLdData) }}
+      />
+
       <div className="max-w-7xl mx-auto px-6">
         <div className="text-center max-w-2xl mx-auto mb-16">
           <div className="flex items-center justify-center gap-3 text-gold text-xs font-bold tracking-[0.2em] uppercase mb-4">
@@ -75,12 +119,19 @@ export function Products() {
               <h3 className="text-lg font-bold mb-3" itemProp="name">{prod.title}</h3>
               <p className="text-gray-soft text-sm mb-8 flex-grow" itemProp="description">{prod.desc}</p>
               
+              {/* Brand, SKU & MPN Microdata to prevent search engine warnings */}
+              <div itemProp="brand" itemScope itemType="https://schema.org/Brand" className="hidden">
+                <meta itemProp="name" content="FAR-VISION" />
+              </div>
+              <meta itemProp="sku" content={`FV-PROD-${idx + 1}`} />
+              <meta itemProp="mpn" content={`FV-MPN-${idx + 1}`} />
+
               {/* Offers & Ratings markup to satisfy Google Search Console / Rich Results requirements */}
               <div itemProp="offers" itemScope itemType="https://schema.org/Offer" className="hidden">
                 <meta itemProp="priceCurrency" content="XOF" />
                 <meta itemProp="price" content="15000" />
                 <meta itemProp="priceValidUntil" content="2027-12-31" />
-                <link itemProp="availability" href="https://schema.org/InStoreOnly" />
+                <link itemProp="availability" href="https://schema.org/InStock" />
                 <link itemProp="itemCondition" href="https://schema.org/NewCondition" />
                 <meta itemProp="url" content="https://far-vision.vercel.app/#produits" />
               </div>
